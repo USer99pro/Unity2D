@@ -31,6 +31,7 @@ public class Hero : MonoBehaviour
         if(canJump == false){
             return;
         }
+        Am.SetBool("bejump", false);
 
 
         float x = Input.GetAxis("Horizontal")*speedX;
