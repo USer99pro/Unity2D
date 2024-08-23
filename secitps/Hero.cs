@@ -11,6 +11,9 @@ public class Hero : MonoBehaviour
     Animator Am;
     SpriteRenderer ap;
     bool canJump = true;
+    public GameObject sh;
+    Transform trans;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +21,7 @@ public class Hero : MonoBehaviour
         regid = GetComponent<Rigidbody2D>();
         ap = GetComponent<SpriteRenderer>();
         Am = GetComponent<Animator>();
+        trans = sh.GetComponent<Transform>();
       
 
     }
@@ -25,19 +29,41 @@ public class Hero : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetMouseButtonDown(1))
+        {
+            GameObject s = Instantiate(sh, trans.position, trans.rotation);
+                Rigidbody2D re_s = s.GetComponent<Rigidbody2D>();
+            if(ap.flipX == false){
+                re_s.velocity = new Vector2(10,0);
+            }
+            if(ap.flipY == true){
+                re_s.velocity = new Vector2(-10,0);
+            }
 
+        }
+
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            Am.SetBool("Attack",true);
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            Am.SetBool("Attack",false);
+        }
        
 
         if(canJump == false){
             return;
         }
-        Am.SetBool("bejump", false);
+        Am.SetBool("beJump", false);
+
 
 
         float x = Input.GetAxis("Horizontal")*speedX;
         regid.velocity = new Vector2(x,regid.velocity.y);
-
         Am.SetFloat("beWalk",Mathf.Abs(x));
+
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -53,14 +79,7 @@ public class Hero : MonoBehaviour
         {
             ap.flipX = false;
         }
-        if(Input.GetMouseButtonDown(1))
-        {
-            Am.SetBool("Attack",true);
-        }
-        if(Input.GetMouseButtonDown(0))
-        {
-            Am.SetBool("Attack",false);
-        }
+  
       
     
     }
